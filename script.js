@@ -84,6 +84,13 @@
     document.getElementById("fillerPhoto").style.backgroundImage = `url(${s})`;
     scene.classList.add("has-img");
   });
+  let footFrac = 0.925; // where the lit foot sits (x-fraction) — SVG default
+  wireImage("images/hero-cigar.png", (s) => {
+    const scene = document.querySelector(".scene--cigar");
+    document.getElementById("cigarPhoto").style.backgroundImage = `url(${s})`;
+    scene.classList.add("has-img");
+    footFrac = 0.82; // lit foot position in the generated photo
+  });
   // lounge cards: images/lounge-1.png … lounge-3.png
   document.querySelectorAll(".lounge__img").forEach((el, i) => {
     wireImage(`images/lounge-${i + 1}.png`, (s) => {
@@ -216,8 +223,8 @@
     const dive = seg(p, 0.12, 0.3);              // zoom toward the foot
     const W = sceneCigar.offsetWidth || 1000;
     const cigScale = lerp(0.72, 1, emerge) + dive * 5.2;
-    // foot sits at 92.5% of the SVG width — steer it to screen center as we zoom
-    const footShift = 0.425 * W * dive * cigScale * 0.42;
+    // steer the lit foot toward screen center as we zoom
+    const footShift = (footFrac - 0.5) * W * dive * cigScale * 0.42;
     const cigOpacity = emerge * (1 - seg(p, 0.18, 0.26));
     sceneCigar.style.transform =
       `translate(calc(-50% - ${footShift.toFixed(1)}px), -50%) scale(${cigScale.toFixed(3)})`;

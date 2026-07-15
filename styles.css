@@ -149,6 +149,13 @@ section { position: relative; }
 .scene--cigar { width: min(88vw, 1000px); }
 .cigar { width: 100%; height: auto; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.65)); }
 .cigar__foot { filter: brightness(1.1); }
+.cigar__photo {
+  display: none; width: 100%; aspect-ratio: 3 / 2;
+  background: center / contain no-repeat;
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.65));
+}
+.scene--cigar.has-img .cigar { display: none; }
+.scene--cigar.has-img .cigar__photo { display: block; }
 
 /* --- rings (wrapper / binder) --- */
 .scene--ring { width: 120vmax; height: 120vmax; border-radius: 50%; opacity: 0; }
