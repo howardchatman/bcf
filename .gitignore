@@ -1,4 +1,6 @@
 node_modules/
 v_*.png
+s[0-9]_*.png
 shot.mjs
 .DS_Store
+.env

@@ -43,7 +43,7 @@
   <!-- ============================================================
        IMMERSIVE SCROLL STAGE  (igloo.inc-style)
        A tall scroll track with a pinned stage. Scroll progress
-       drives the camera flying INTO the cigar, layer by layer.
+       drives the camera: smoke → lit end → wrapper → binder → filler.
        ============================================================ -->
   <section class="scrolltrack" id="home" aria-label="Journey into the cigar">
     <div class="stage" id="stage">
@@ -51,8 +51,23 @@
       <!-- soft radial light -->
       <div class="stage__glow"></div>
 
-      <!-- LAYER 0 — the whole cigar (side view) -->
-      <div class="scene scene--cigar" data-scene="0">
+      <!-- PHASE 0 — SMOKE (canvas plumes; image overlay if available) -->
+      <div class="scene scene--smoke" data-scene="smoke">
+        <canvas id="smokeCanvas" aria-hidden="true"></canvas>
+        <div class="smoke__img" id="smokeImg"></div>
+      </div>
+
+      <!-- PHASE 1 — LIT END (the glowing foot we fly into) -->
+      <div class="scene scene--ember" data-scene="ember">
+        <div class="emberdisc" id="emberDisc">
+          <div class="emberdisc__ash"></div>
+          <div class="emberdisc__coal"></div>
+          <div class="emberdisc__core"></div>
+        </div>
+      </div>
+
+      <!-- the whole cigar (approached through the smoke) -->
+      <div class="scene scene--cigar" data-scene="cigar">
         <svg class="cigar" viewBox="0 0 960 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A premium cigar">
           <defs>
             <linearGradient id="wrap" x1="0" y1="0" x2="0" y2="1">
@@ -68,10 +83,15 @@
               <stop offset="0.4" stop-color="#ffffff" stop-opacity="0"/>
             </linearGradient>
             <radialGradient id="foot" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0" stop-color="#3a2412"/>
-              <stop offset="0.45" stop-color="#6b451f"/>
-              <stop offset="0.75" stop-color="#8a5626"/>
-              <stop offset="1" stop-color="#4a2c13"/>
+              <stop offset="0" stop-color="#ffd9a0"/>
+              <stop offset="0.3" stop-color="#ff9c3f"/>
+              <stop offset="0.6" stop-color="#e05a1e"/>
+              <stop offset="0.82" stop-color="#7a2c10"/>
+              <stop offset="1" stop-color="#4a4440"/>
+            </radialGradient>
+            <radialGradient id="footglow" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0" stop-color="#ff8c30" stop-opacity="0.8"/>
+              <stop offset="1" stop-color="#ff8c30" stop-opacity="0"/>
             </radialGradient>
             <linearGradient id="band" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stop-color="#e6c877"/>
@@ -97,8 +117,11 @@
           <rect x="70" y="112" width="820" height="76" rx="38" fill="url(#sheen)"/>
           <!-- cap (left) -->
           <path d="M70 150 q-16 0 -16 -12 v-4 q0 -22 34 -22 v76 q-34 0 -34 -22 v-4 q0 -12 16 -12" fill="#4a2c13"/>
-          <!-- foot / cut end (right) — the doorway we fly into -->
+          <!-- lit foot (right) — the glowing doorway we fly into -->
+          <ellipse cx="888" cy="150" rx="60" ry="80" fill="url(#footglow)"/>
           <ellipse class="cigar__foot" cx="888" cy="150" rx="14" ry="38" fill="url(#foot)"/>
+          <!-- ash ring -->
+          <path d="M874 116 a14 38 0 0 1 0 68" fill="none" stroke="#8f8a84" stroke-width="6" opacity="0.85"/>
           <!-- band -->
           <g>
             <rect x="300" y="108" width="96" height="84" rx="6" fill="url(#band)"/>
@@ -108,14 +131,15 @@
         </svg>
       </div>
 
-      <!-- LAYER 1 — WRAPPER (outer ring we pass through) -->
-      <div class="scene scene--ring ring--wrapper" data-scene="1"></div>
+      <!-- PHASE 2 — WRAPPER (outer ring we pass through) -->
+      <div class="scene scene--ring ring--wrapper" data-scene="wrapper"></div>
 
-      <!-- LAYER 2 — BINDER (middle ring) -->
-      <div class="scene scene--ring ring--binder" data-scene="2"></div>
+      <!-- PHASE 3 — BINDER (middle ring) -->
+      <div class="scene scene--ring ring--binder" data-scene="binder"></div>
 
-      <!-- LAYER 3 — FILLER (the core; leaves injected by JS) -->
-      <div class="scene scene--filler" data-scene="3">
+      <!-- PHASE 4 — FILLER (the core; leaves injected by JS) -->
+      <div class="scene scene--filler" data-scene="filler">
+        <div class="filler__photo" id="fillerPhoto"></div>
         <div class="filler__bundle" id="fillerBundle"></div>
       </div>
 
@@ -124,19 +148,24 @@
         <div class="caption is-active" data-cap="0">
           <span class="caption__kicker">Black Cigar Festival</span>
           <h1 class="caption__title">Inside the Leaf</h1>
-          <p class="caption__text">Scroll to journey through the cigar — and the culture behind it.</p>
+          <p class="caption__text">Follow the smoke. Scroll to journey into the cigar — and the culture behind it.</p>
         </div>
         <div class="caption" data-cap="1">
+          <span class="caption__kicker">The Light</span>
+          <h2 class="caption__title">Where It Burns</h2>
+          <p class="caption__text">Every story starts with a spark. Through the ember, into the leaf.</p>
+        </div>
+        <div class="caption" data-cap="2">
           <span class="caption__kicker">Layer 01</span>
           <h2 class="caption__title">The Wrapper</h2>
           <p class="caption__text">The outer leaf. First impression, aroma, character — like the brands that front our culture.</p>
         </div>
-        <div class="caption" data-cap="2">
+        <div class="caption" data-cap="3">
           <span class="caption__kicker">Layer 02</span>
           <h2 class="caption__title">The Binder</h2>
           <p class="caption__text">The structure that holds it all together — the lounges and communities keeping the tradition lit.</p>
         </div>
-        <div class="caption" data-cap="3">
+        <div class="caption" data-cap="4">
           <span class="caption__kicker">Layer 03</span>
           <h2 class="caption__title">The Filler</h2>
           <p class="caption__text">The heart. The blend. The soul. This is where the Black Cigar Festival lives.</p>
@@ -149,6 +178,7 @@
         <span class="progress__dot" data-p="1"></span>
         <span class="progress__dot" data-p="2"></span>
         <span class="progress__dot" data-p="3"></span>
+        <span class="progress__dot" data-p="4"></span>
       </div>
 
       <!-- scroll hint -->

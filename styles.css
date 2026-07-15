@@ -81,7 +81,7 @@ section { position: relative; }
 /* =================================================================
    IMMERSIVE SCROLL STAGE
    ================================================================= */
-.scrolltrack { height: 500vh; position: relative; z-index: 2; }
+.scrolltrack { height: 650vh; position: relative; z-index: 2; }
 .stage {
   position: sticky;
   top: 0;
@@ -109,10 +109,46 @@ section { position: relative; }
   transform-origin: center center;
 }
 
-/* --- LAYER 0: whole cigar --- */
+/* --- PHASE 0: smoke --- */
+.scene--smoke { width: 100vw; height: 100vh; }
+#smokeCanvas { width: 100%; height: 100%; display: block; }
+.smoke__img {
+  position: absolute; inset: 0;
+  background: center / cover no-repeat;
+  opacity: 0; transition: opacity 1.2s var(--ease);
+  mix-blend-mode: screen;
+}
+.smoke__img.has-img { opacity: 0.85; }
+
+/* --- PHASE 1: lit end / ember disc --- */
+.scene--ember { width: 90vmin; height: 90vmin; opacity: 0; z-index: 3; }
+.emberdisc { position: absolute; inset: 0; border-radius: 50%; }
+.emberdisc__ash {
+  position: absolute; inset: 0; border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 58%, #6e6862 62%, #8f8a84 72%, #55504b 84%, #2a2724 100%);
+}
+.emberdisc__coal {
+  position: absolute; inset: 6%; border-radius: 50%;
+  background:
+    radial-gradient(circle at 42% 40%, #ffb35c 0 8%, transparent 26%),
+    radial-gradient(circle at 62% 58%, #ff8c30 0 10%, transparent 30%),
+    radial-gradient(circle at 50% 50%, #ffd9a0 0 4%, #ff9c3f 18%, #e05a1e 42%, #a03612 62%, #571d0a 82%, #2b1005 100%);
+  animation: emberpulse 2.6s ease-in-out infinite;
+}
+.emberdisc__coal.has-img { background: center / cover no-repeat; animation: emberpulse 2.6s ease-in-out infinite; }
+.emberdisc__core {
+  position: absolute; inset: 30%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,235,190,0.9), rgba(255,140,48,0.4) 55%, transparent 75%);
+  filter: blur(6px);
+  animation: emberpulse 2.6s ease-in-out infinite reverse;
+}
+@keyframes emberpulse { 0%,100% { opacity: 0.85; transform: scale(1); } 50% { opacity: 1; transform: scale(1.03); } }
+
+/* --- whole cigar --- */
 .scene--cigar { width: min(88vw, 1000px); }
 .cigar { width: 100%; height: auto; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.65)); }
-.cigar__foot { filter: brightness(1.05); }
+.cigar__foot { filter: brightness(1.1); }
 
 /* --- rings (wrapper / binder) --- */
 .scene--ring { width: 120vmax; height: 120vmax; border-radius: 50%; opacity: 0; }
@@ -137,6 +173,19 @@ section { position: relative; }
   background: repeating-radial-gradient(circle, rgba(255,235,200,0.06) 0 6px, transparent 6px 14px);
   opacity: 0.7;
 }
+/* generated-texture upgrade: ring becomes a photo donut with a see-through core */
+.scene--ring.has-img {
+  background: center / cover no-repeat;
+  -webkit-mask: radial-gradient(circle, transparent 0 26%, #000 30% 100%);
+  mask: radial-gradient(circle, transparent 0 26%, #000 30% 100%);
+}
+.scene--ring.has-img::after { display: none; }
+.filler__photo {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: center / cover no-repeat; display: none;
+}
+.scene--filler.has-img .filler__photo { display: block; }
+.scene--filler.has-img .filler__bundle { display: none; }
 
 /* --- LAYER 3: filler core --- */
 .scene--filler { width: 100vmax; height: 100vmax; opacity: 0; display: grid; place-items: center; }
@@ -222,6 +271,7 @@ section { position: relative; }
 .lounge:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -22px rgba(0,0,0,0.85); }
 .lounge__img { height: 200px; background: linear-gradient(160deg, rgba(201,162,75,0.22), rgba(20,18,16,0.9)), repeating-linear-gradient(45deg, var(--smoke) 0 14px, var(--charcoal) 14px 28px); position: relative; }
 .lounge__img::after { content: "◦ photo"; position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-display); font-style: italic; font-size: 1.1rem; color: rgba(244,237,224,0.35); }
+.lounge__img.has-img::after { display: none; }
 .lounge__body { padding: 1.6rem 1.6rem 1.9rem; }
 .lounge__name { font-family: var(--font-display); font-size: 1.5rem; color: var(--cream); margin-bottom: 0.3rem; }
 .lounge__loc { font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
