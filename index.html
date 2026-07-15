@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Black Cigar Festival — Inside the Leaf</title>
+  <meta name="description" content="An immersive journey through the Black Cigar Festival — celebrating Black-owned cigar brands and lounges. Scroll into the cigar: wrapper, binder, filler." />
+
+  <!-- ============================================================
+       EASY-EDIT NOTE:
+       Placeholders are wrapped like  {{ EDIT: ... }}.
+       Search this file for  EDIT:  to find every spot to change.
+       ============================================================ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Ember particles (decorative, behind everything) -->
+  <canvas id="embers" aria-hidden="true"></canvas>
+
+  <!-- ================= NAV ================= -->
+  <header class="nav" id="nav">
+    <a href="#home" class="nav__brand">
+      <span class="nav__mark">BCF</span>
+      <span class="nav__word">Black Cigar Festival</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#brands">Brands</a>
+      <a href="#lounges">Lounges</a>
+      <a href="#experience">Experience</a>
+      <a href="#tickets" class="nav__cta">Get Tickets</a>
+    </nav>
+    <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ============================================================
+       IMMERSIVE SCROLL STAGE  (igloo.inc-style)
+       A tall scroll track with a pinned stage. Scroll progress
+       drives the camera flying INTO the cigar, layer by layer.
+       ============================================================ -->
+  <section class="scrolltrack" id="home" aria-label="Journey into the cigar">
+    <div class="stage" id="stage">
+
+      <!-- soft radial light -->
+      <div class="stage__glow"></div>
+
+      <!-- LAYER 0 — the whole cigar (side view) -->
+      <div class="scene scene--cigar" data-scene="0">
+        <svg class="cigar" viewBox="0 0 960 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A premium cigar">
+          <defs>
+            <linearGradient id="wrap" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#7a4a24"/>
+              <stop offset="0.30" stop-color="#a9702f"/>
+              <stop offset="0.55" stop-color="#8a5626"/>
+              <stop offset="0.85" stop-color="#5c3717"/>
+              <stop offset="1" stop-color="#3e2410"/>
+            </linearGradient>
+            <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="0.34" stop-color="#ffe9c2" stop-opacity="0.55"/>
+              <stop offset="0.4" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+            <radialGradient id="foot" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0" stop-color="#3a2412"/>
+              <stop offset="0.45" stop-color="#6b451f"/>
+              <stop offset="0.75" stop-color="#8a5626"/>
+              <stop offset="1" stop-color="#4a2c13"/>
+            </radialGradient>
+            <linearGradient id="band" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#e6c877"/>
+              <stop offset="0.5" stop-color="#c9a24b"/>
+              <stop offset="1" stop-color="#9a7a2e"/>
+            </linearGradient>
+          </defs>
+
+          <!-- body -->
+          <rect x="70" y="112" width="820" height="76" rx="38" fill="url(#wrap)"/>
+          <!-- wrapper spiral seams -->
+          <g stroke="#3e2410" stroke-width="2" opacity="0.4">
+            <line x1="150" y1="112" x2="120" y2="188"/>
+            <line x1="250" y1="112" x2="220" y2="188"/>
+            <line x1="350" y1="112" x2="320" y2="188"/>
+            <line x1="450" y1="112" x2="420" y2="188"/>
+            <line x1="550" y1="112" x2="520" y2="188"/>
+            <line x1="650" y1="112" x2="620" y2="188"/>
+            <line x1="750" y1="112" x2="720" y2="188"/>
+            <line x1="840" y1="112" x2="810" y2="188"/>
+          </g>
+          <!-- sheen -->
+          <rect x="70" y="112" width="820" height="76" rx="38" fill="url(#sheen)"/>
+          <!-- cap (left) -->
+          <path d="M70 150 q-16 0 -16 -12 v-4 q0 -22 34 -22 v76 q-34 0 -34 -22 v-4 q0 -12 16 -12" fill="#4a2c13"/>
+          <!-- foot / cut end (right) — the doorway we fly into -->
+          <ellipse class="cigar__foot" cx="888" cy="150" rx="14" ry="38" fill="url(#foot)"/>
+          <!-- band -->
+          <g>
+            <rect x="300" y="108" width="96" height="84" rx="6" fill="url(#band)"/>
+            <rect x="300" y="108" width="96" height="84" rx="6" fill="none" stroke="#7a5e1f" stroke-width="1.5"/>
+            <text x="348" y="156" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="700" font-size="30" fill="#2a1c08">BCF</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- LAYER 1 — WRAPPER (outer ring we pass through) -->
+      <div class="scene scene--ring ring--wrapper" data-scene="1"></div>
+
+      <!-- LAYER 2 — BINDER (middle ring) -->
+      <div class="scene scene--ring ring--binder" data-scene="2"></div>
+
+      <!-- LAYER 3 — FILLER (the core; leaves injected by JS) -->
+      <div class="scene scene--filler" data-scene="3">
+        <div class="filler__bundle" id="fillerBundle"></div>
+      </div>
+
+      <!-- CAPTIONS overlay -->
+      <div class="captions">
+        <div class="caption is-active" data-cap="0">
+          <span class="caption__kicker">Black Cigar Festival</span>
+          <h1 class="caption__title">Inside the Leaf</h1>
+          <p class="caption__text">Scroll to journey through the cigar — and the culture behind it.</p>
+        </div>
+        <div class="caption" data-cap="1">
+          <span class="caption__kicker">Layer 01</span>
+          <h2 class="caption__title">The Wrapper</h2>
+          <p class="caption__text">The outer leaf. First impression, aroma, character — like the brands that front our culture.</p>
+        </div>
+        <div class="caption" data-cap="2">
+          <span class="caption__kicker">Layer 02</span>
+          <h2 class="caption__title">The Binder</h2>
+          <p class="caption__text">The structure that holds it all together — the lounges and communities keeping the tradition lit.</p>
+        </div>
+        <div class="caption" data-cap="3">
+          <span class="caption__kicker">Layer 03</span>
+          <h2 class="caption__title">The Filler</h2>
+          <p class="caption__text">The heart. The blend. The soul. This is where the Black Cigar Festival lives.</p>
+        </div>
+      </div>
+
+      <!-- progress rail -->
+      <div class="progress" aria-hidden="true">
+        <span class="progress__dot" data-p="0"></span>
+        <span class="progress__dot" data-p="1"></span>
+        <span class="progress__dot" data-p="2"></span>
+        <span class="progress__dot" data-p="3"></span>
+      </div>
+
+      <!-- scroll hint -->
+      <div class="scrollhint" id="scrollHint"><span></span>scroll</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTENT BEGINS (revealed after the immersive intro)
+       ============================================================ -->
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Black-Owned</span><span class="dot">•</span>
+      <span>Hand-Rolled</span><span class="dot">•</span>
+      <span>Culture</span><span class="dot">•</span>
+      <span>Community</span><span class="dot">•</span>
+      <span>Craft</span><span class="dot">•</span>
+      <span>Legacy</span><span class="dot">•</span>
+      <span>Black-Owned</span><span class="dot">•</span>
+      <span>Hand-Rolled</span><span class="dot">•</span>
+      <span>Culture</span><span class="dot">•</span>
+      <span>Community</span><span class="dot">•</span>
+      <span>Craft</span><span class="dot">•</span>
+      <span>Legacy</span><span class="dot">•</span>
+    </div>
+  </div>
+
+  <!-- EVENT META BAR -->
+  <section class="eventbar">
+    <!-- {{ EDIT: event date + city/venue + ticket link }} -->
+    <div class="eventbar__item reveal">
+      <span class="eventbar__label">Date</span>
+      <span class="eventbar__value">TBA — Coming Soon</span>
+    </div>
+    <div class="eventbar__item reveal">
+      <span class="eventbar__label">Location</span>
+      <span class="eventbar__value">City · Venue TBA</span>
+    </div>
+    <div class="eventbar__item reveal">
+      <a href="#tickets" class="btn btn--gold">Reserve Your Spot</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-head reveal">
+      <span class="section-kicker">The Festival</span>
+      <h2 class="section-title">More than smoke.<br />It's a movement.</h2>
+    </div>
+    <div class="about__grid">
+      <p class="about__lead reveal">
+        The Black Cigar Festival is a celebration of the artistry, entrepreneurship,
+        and heritage behind Black-owned cigar brands and lounges. For one unforgettable
+        gathering, we bring together makers, tastemakers, and lovers of the leaf.
+      </p>
+      <div class="about__stats reveal">
+        <!-- {{ EDIT: stats }} -->
+        <div class="stat"><span class="stat__num">20+</span><span class="stat__label">Black-Owned Brands</span></div>
+        <div class="stat"><span class="stat__num">10+</span><span class="stat__label">Featured Lounges</span></div>
+        <div class="stat"><span class="stat__num">1</span><span class="stat__label">Unforgettable Night</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <section class="brands" id="brands">
+    <div class="section-head reveal">
+      <span class="section-kicker">Featured</span>
+      <h2 class="section-title">Black-Owned Cigar Brands</h2>
+      <p class="section-desc">A showcase of the makers redefining the craft. <em>Example cards — swap in your real brands.</em></p>
+    </div>
+    <div class="card-grid">
+      <!-- {{ EDIT: replace these example brand cards }} -->
+      <article class="card reveal"><div class="card__badge">Est. —</div><h3 class="card__name">Brand Name One</h3><p class="card__meta">Handcrafted · City, ST</p><p class="card__blurb">A short line about what makes this brand special — its blend, its story, its founder's vision.</p><a href="#" class="card__link">View Brand →</a></article>
+      <article class="card reveal"><div class="card__badge">Est. —</div><h3 class="card__name">Brand Name Two</h3><p class="card__meta">Boutique Blends · City, ST</p><p class="card__blurb">A short line about what makes this brand special — its blend, its story, its founder's vision.</p><a href="#" class="card__link">View Brand →</a></article>
+      <article class="card reveal"><div class="card__badge">Est. —</div><h3 class="card__name">Brand Name Three</h3><p class="card__meta">Small Batch · City, ST</p><p class="card__blurb">A short line about what makes this brand special — its blend, its story, its founder's vision.</p><a href="#" class="card__link">View Brand →</a></article>
+      <article class="card reveal"><div class="card__badge">Est. —</div><h3 class="card__name">Brand Name Four</h3><p class="card__meta">Premium · City, ST</p><p class="card__blurb">A short line about what makes this brand special — its blend, its story, its founder's vision.</p><a href="#" class="card__link">View Brand →</a></article>
+      <article class="card reveal"><div class="card__badge">Est. —</div><h3 class="card__name">Brand Name Five</h3><p class="card__meta">Signature Line · City, ST</p><p class="card__blurb">A short line about what makes this brand special — its blend, its story, its founder's vision.</p><a href="#" class="card__link">View Brand →</a></article>
+      <article class="card card--cta reveal"><h3 class="card__name">Your Brand Here</h3><p class="card__blurb">Are you a Black-owned cigar brand? Join the showcase.</p><a href="#tickets" class="card__link">Become a Vendor →</a></article>
+    </div>
+  </section>
+
+  <!-- LOUNGES -->
+  <section class="lounges" id="lounges">
+    <div class="section-head reveal">
+      <span class="section-kicker">Where Culture Gathers</span>
+      <h2 class="section-title">Featured Lounges</h2>
+      <p class="section-desc">The rooms that keep the tradition alive. <em>Example cards — swap in your real lounges.</em></p>
+    </div>
+    <div class="lounge-grid">
+      <!-- {{ EDIT: replace these example lounge cards }} -->
+      <article class="lounge reveal"><div class="lounge__img"></div><div class="lounge__body"><h3 class="lounge__name">Lounge Name One</h3><p class="lounge__loc">◦ City, State</p><p class="lounge__blurb">A welcoming space known for its selection, atmosphere, and community.</p></div></article>
+      <article class="lounge reveal"><div class="lounge__img"></div><div class="lounge__body"><h3 class="lounge__name">Lounge Name Two</h3><p class="lounge__loc">◦ City, State</p><p class="lounge__blurb">A welcoming space known for its selection, atmosphere, and community.</p></div></article>
+      <article class="lounge reveal"><div class="lounge__img"></div><div class="lounge__body"><h3 class="lounge__name">Lounge Name Three</h3><p class="lounge__loc">◦ City, State</p><p class="lounge__blurb">A welcoming space known for its selection, atmosphere, and community.</p></div></article>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience" id="experience">
+    <div class="section-head reveal">
+      <span class="section-kicker">The Experience</span>
+      <h2 class="section-title">What Awaits You</h2>
+    </div>
+    <div class="exp-grid">
+      <!-- {{ EDIT: experience items }} -->
+      <div class="exp reveal"><span class="exp__icon">✦</span><h3>Curated Tastings</h3><p>Sample signature blends straight from the makers themselves.</p></div>
+      <div class="exp reveal"><span class="exp__icon">♫</span><h3>Live Sounds</h3><p>A soundtrack of soul, jazz, and rhythm all night long.</p></div>
+      <div class="exp reveal"><span class="exp__icon">✕</span><h3>Roller's Corner</h3><p>Watch master rollers craft cigars by hand, live.</p></div>
+      <div class="exp reveal"><span class="exp__icon">◈</span><h3>Networking</h3><p>Connect with founders, collectors, and fellow aficionados.</p></div>
+    </div>
+  </section>
+
+  <!-- TICKETS -->
+  <section class="tickets" id="tickets">
+    <div class="tickets__panel reveal">
+      <span class="section-kicker">Join Us</span>
+      <h2 class="tickets__title">Reserve Your Experience</h2>
+      <p class="tickets__desc">Seats are limited. Be part of the night that celebrates the culture, the craft, and the community behind Black-owned cigars.</p>
+      <!-- {{ EDIT: ticket / registration link }} -->
+      <div class="tickets__actions">
+        <a href="#" class="btn btn--gold btn--lg">Get Tickets</a>
+        <a href="#" class="btn btn--ghost btn--lg">Become a Vendor</a>
+      </div>
+      <form class="signup" id="signupForm" novalidate>
+        <label for="email" class="signup__label">Or get notified when tickets drop</label>
+        <div class="signup__row">
+          <input type="email" id="email" name="email" placeholder="your@email.com" required />
+          <button type="submit" class="btn btn--gold">Notify Me</button>
+        </div>
+        <p class="signup__msg" id="signupMsg" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="contact">
+    <div class="footer__brand"><span class="nav__mark">BCF</span><p>Black Cigar Festival</p></div>
+    <p class="footer__tag">Celebrating Black-owned cigar culture — one gathering at a time.</p>
+    <!-- {{ EDIT: social links + contact email }} -->
+    <div class="footer__socials">
+      <a href="#" aria-label="Instagram">Instagram</a>
+      <a href="#" aria-label="Facebook">Facebook</a>
+      <a href="#" aria-label="Email">Contact</a>
+    </div>
+    <p class="footer__copy">© <span id="year"></span> Black Cigar Festival. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

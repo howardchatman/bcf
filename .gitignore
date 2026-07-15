@@ -1,0 +1,4 @@
+node_modules/
+v_*.png
+shot.mjs
+.DS_Store
